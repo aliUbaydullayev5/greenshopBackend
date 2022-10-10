@@ -4,6 +4,23 @@ const authMiddleWare = require('../middleWare/auth.middleWare')
 const Product = require('../models/product.model')
 const Basket = require('../models/basket.model')
 
+router.get('/basket', authMiddleWare, async (req, res)=> {
+    try{
+        const bascket = await Basket.find({email: req.user.userEmail})
+        res.json(bascket)
+    }catch (e){
+        res.status(400).json({message: '404'})
+    }
+})
+
+router.get('/:id', async (req, res)=> {
+    try{
+        const product = await Product.find({_id: req.params.id})
+        res.json(product)
+    }catch (err){
+        res.status(500).json({message: '404'})
+    }
+})
 router.post('/addProduct', authMiddleWare, async (req, res)=> {
     try{
         if (req.user.userEmail !== 'admin@admin.com') return res.status(401).json({message: 'only ADMIN'})
@@ -47,32 +64,6 @@ router.post('/delete', authMiddleWare, async (req, res)=> {
     }
 })
 
-router.get('/' , async (req, res)=> {
-    try{
-        const products = await Product.find()
-        res.json(products)
-    }catch (e){
-        res.status(400).json({message: '404'})
-    }
-})
-
-router.get('/basket', authMiddleWare, async (req, res)=> {
-    try{
-        const bascket = await Basket.find({email: req.user.userEmail})
-        res.json(bascket)
-    }catch (e){
-        res.status(400).json({message: '404'})
-    }
-})
-
-router.get('/:id', async (req, res)=> {
-    try{
-        const product = await Product.find({_id: req.params.id})
-        res.json(product)
-    }catch (err){
-        res.status(500).json({message: '404'})
-    }
-})
 
 
 module.exports = router
