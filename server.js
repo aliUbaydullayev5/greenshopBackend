@@ -14,7 +14,7 @@ app.use('/api', authRouter)
 app.use('/product', productRouter)
 
 app.get('/', (req, res)=> {
-    res.send(<h1>Run Test</h1>)
+    res.send('<h1>Run Test</h1>')
 })
 
 function start() {
