@@ -70,7 +70,7 @@ router.get('/:id', async (req, res)=> {
         const product = await Product.find({_id: req.params.id})
         res.json(product)
     }catch (err){
-        res.status(500).json({message: 'Что-то пошло не так'})
+        res.status(500).json({message: '404'})
     }
 })
 

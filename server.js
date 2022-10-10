@@ -1,5 +1,5 @@
 const express = require('express')
-const cors = require('cors')
+var cors = require('cors')
 const mongoose = require('mongoose')
 const authRouter = require('./routers/auth.router')
 const productRouter = require('./routers/product.router')
@@ -8,8 +8,8 @@ mongoose.connect('mongodb+srv://ali:python20050302@cluster0.1iyoajf.mongodb.net/
 const PORT = process.env.PORT || 8080
 const app = express()
 
-app.use(express.json());
 app.use(cors())
+app.use(express.json());
 
 app.use('/api', authRouter)
 app.use('/product', productRouter)
