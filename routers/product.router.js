@@ -4,8 +4,7 @@ const authMiddleWare = require('../middleWare/auth.middleWare')
 const Product = require('../models/product.model')
 const Basket = require('../models/basket.model')
 
-
-app.get('/' , async (req, res)=> {
+router.get('/' , async (req, res)=> {
     try{
         const products = await Product.find()
         res.json(products)
@@ -31,6 +30,7 @@ router.get('/:id', async (req, res)=> {
         res.status(500).json({message: '404'})
     }
 })
+
 router.post('/addProduct', authMiddleWare, async (req, res)=> {
     try{
         if (req.user.userEmail !== 'admin@admin.com') return res.status(401).json({message: 'only ADMIN'})
