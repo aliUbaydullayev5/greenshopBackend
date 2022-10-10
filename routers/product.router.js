@@ -4,6 +4,16 @@ const authMiddleWare = require('../middleWare/auth.middleWare')
 const Product = require('../models/product.model')
 const Basket = require('../models/basket.model')
 
+
+app.get('/' , async (req, res)=> {
+    try{
+        const products = await Product.find()
+        res.json(products)
+    }catch (e){
+        res.status(400).json({message: '404'})
+    }
+})
+
 router.get('/basket', authMiddleWare, async (req, res)=> {
     try{
         const bascket = await Basket.find({email: req.user.userEmail})
