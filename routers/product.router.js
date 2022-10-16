@@ -38,10 +38,10 @@ router.post('/addProduct', authMiddleWare, async (req, res)=> {
         const {title, desc, price, type} = req.body
         const fileName = FileService.saveFile(req.files.img)
 
-        const product = new Product({img: fileName, title, desc, price, type})
-
-        await product.save()
-        res.status(201).json({message: 'Success fully saved', data: product})
+//         const product = new Product({img: fileName, title, desc, price, type})
+        res.status(201).json({fileName, title, desc, price, type})
+//         await product.save()
+//         res.status(201).json({message: 'Success fully saved', data: product})
     }catch (e){
         res.status(400).json({message: 'error addProduct'})
     }
