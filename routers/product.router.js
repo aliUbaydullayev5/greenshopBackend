@@ -3,6 +3,7 @@ const router = new Router()
 const authMiddleWare = require('../middleWare/auth.middleWare')
 const Product = require('../models/product.model')
 const Basket = require('../models/basket.model')
+const FileService = require('../FileService')
 
 router.get('/' , async (req, res)=> {
     try{
@@ -34,12 +35,15 @@ router.get('/:id', async (req, res)=> {
 router.post('/addProduct', authMiddleWare, async (req, res)=> {
     try{
         if (req.user.userEmail !== 'admin@admin.com') return res.status(401).json({message: 'only ADMIN'})
-        const {img, title, desc, price, type} = req.body
-        const product = new Product({img, title, desc, price, type})
+        const {title, desc, price, type} = req.body
+        const fileName = FileService.saveFile(req.files.img)
+
+        const product = new Product({img: fileName, title, desc, price, type})
+
         await product.save()
-        res.status(201).json({message: 'Success fully saved'})
+        res.status(201).json({message: 'Success fully saved', data: product})
     }catch (e){
-        res.status(400).json({message: '404'})
+        res.status(400).json({message: 'error addProduct'})
     }
 })
 
