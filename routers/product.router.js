@@ -35,9 +35,9 @@ router.get('/:id', async (req, res)=> {
 router.post('/addProduct', authMiddleWare, async (req, res)=> {
     try{
         if (req.user.userEmail !== 'admin@admin.com') return res.status(401).json({message: 'only ADMIN'})
-        const {title, desc, price, type} = req.body
-        const fileName = FileService.saveFile(req.files.img)
-        const product = new Product({img: fileName, title, desc, price, type})
+        const {img, title, desc, price, type} = req.body
+//         const fileName = FileService.saveFile(req.files.img)
+        const product = new Product({img, title, desc, price, type})
         await product.save()
         res.status(201).json(product)
     }catch (e){
